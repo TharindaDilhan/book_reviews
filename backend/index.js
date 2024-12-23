@@ -30,13 +30,11 @@ app.get("/reviews", (req, res) => {
     let query = "SELECT * FROM reviews";
     const queryParams = [];
   
-    // Apply rating filter
     if (rating) {
       query += " WHERE rating = ?";
       queryParams.push(rating);
     }
   
-    // Apply sorting
     if (sort === "asc") {
       query += " ORDER BY date_added ASC";
     } else if (sort === "desc") {
@@ -48,35 +46,36 @@ app.get("/reviews", (req, res) => {
   
       res.json(results);
     });
-  });
+});
   
-  
-
 // Add a review
 app.post("/reviews", (req, res) => {
-    const { book_title, review_text, rating } = req.body;
+    const { book_title, author, review_text, rating } = req.body;
   
-    if (!book_title || !review_text || !rating) {
-      return res.status(400).json({ error: "All fields (book_title, review_text, rating) are required." });
+    // Log incoming request data
+    console.log("Incoming POST Data:", { book_title, author, review_text, rating });
+  
+    if (!book_title || !author || !review_text || !rating) {
+      console.error("Validation Error: Missing fields.");
+      return res.status(400).json({ error: "All fields (book_title, author, review_text, rating) are required." });
     }
   
+    // Insert data into the database
     db.query(
-      "INSERT INTO reviews (book_title, review_text, rating) VALUES (?, ?, ?)",
-      [book_title, review_text, rating],
+      "INSERT INTO reviews (book_title, author, review_text, rating) VALUES (?, ?, ?, ?)",
+      [book_title, author, review_text, rating],
       (err, result) => {
         if (err) {
-          console.error("Database insert error:", err);
-          return res.status(500).json({ error: "Failed to add review." });
+          console.error("Database Error:", err);
+          return res.status(500).json({ error: "Failed to add review. Database error." });
         }
   
-        res.status(201).json({ id: result.insertId, book_title, review_text, rating });
+        console.log("Review added successfully with ID:", result.insertId);
+        res.status(201).json({ id: result.insertId, book_title, author, review_text, rating });
       }
     );
-  });
+});  
   
-  
-  
-
 // Update a review
 app.put("/reviews/:id", (req, res) => {
     const { id } = req.params;
@@ -107,12 +106,10 @@ app.put("/reviews/:id", (req, res) => {
         res.status(200).json({ id, book_title, review_text });
       }
     );
-  });
+});
   
-  
-  
-  // Delete a review
-  app.delete("/reviews/:id", (req, res) => {
+// Delete a review
+app.delete("/reviews/:id", (req, res) => {
     const { id } = req.params;
     db.query("DELETE FROM reviews WHERE id = ?", [id], (err, result) => {
       if (err) return res.status(500).send(err);
@@ -121,9 +118,8 @@ app.put("/reviews/:id", (req, res) => {
       }
       res.sendStatus(200);
     });
-  });
+});
   
-
 // Start the server
 const PORT = 5000;
 app.listen(PORT, () => {
