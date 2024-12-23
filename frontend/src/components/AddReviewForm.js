@@ -1,5 +1,33 @@
 import React, { useState } from "react";
 
+const normalcenter = {
+    aligenitem: 'center',
+    display: 'grid',
+    flexdirection: "column",
+};
+
+const inputdetao = {
+    width: "252px",
+    padding: "10px",
+    margin: "15px",
+};
+
+const selectdata = {
+    margin: "0 0 0 24px",
+    padding: "9px"
+};
+
+const submitbutten = {
+    margin: "20px",
+    width: "298px",
+    padding: "11px",
+    background: "green",
+    color: "white",
+    border: "none",
+    borderradius: "10px",
+    fontsize: "18px"
+};
+
 const AddReviewForm = ({ onAddReview }) => {
   const [bookTitle, setBookTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -52,9 +80,9 @@ const AddReviewForm = ({ onAddReview }) => {
   
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form style={normalcenter} onSubmit={handleSubmit}>
       <div>
-        <input
+        <input style={inputdetao}
           type="text"
           placeholder="Book Title"
           value={bookTitle}
@@ -63,7 +91,7 @@ const AddReviewForm = ({ onAddReview }) => {
         />
       </div>
       <div>
-        <input
+        <input style={inputdetao}
           type="text"
           placeholder="Author"
           value={author}
@@ -72,7 +100,7 @@ const AddReviewForm = ({ onAddReview }) => {
         />
       </div>
       <div>
-        <textarea
+        <textarea style={inputdetao}
           placeholder="Write your review here..."
           value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
@@ -82,7 +110,7 @@ const AddReviewForm = ({ onAddReview }) => {
       <div>
         <label>
           Rating:
-          <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
+          <select style={selectdata} value={rating} onChange={(e) => setRating(Number(e.target.value))}>
             {[1, 2, 3, 4, 5].map((value) => (
               <option key={value} value={value}>
                 {value} Stars
@@ -91,7 +119,7 @@ const AddReviewForm = ({ onAddReview }) => {
           </select>
         </label>
       </div>
-      <button type="submit">Add Review</button>
+      <button style={submitbutten} type="submit">Add Review</button>
     </form>
   );
 };
