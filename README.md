@@ -20,13 +20,6 @@ A simple full-stack application for managing book reviews. Users can add, view, 
 - **Node.js with Express:** For handling server-side logic.
 - **MariaDB:** For storing book reviews.
 
-## Installation and Setup
-
-### Prerequisites
-- **Node.js** installed
-- **MariaDB** server running
-- **Git** for version control
-
 ### Instructions
 
 ```
