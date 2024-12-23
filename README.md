@@ -29,7 +29,7 @@ A simple full-stack application for managing book reviews. Users can add, view, 
 
 ### Instructions
 
-CREATE TABLE reviews (
+```CREATE TABLE reviews (
   id INT AUTO_INCREMENT PRIMARY KEY,
   book_title VARCHAR(255) NOT NULL,
   author VARCHAR(255) NOT NULL,
@@ -37,3 +37,4 @@ CREATE TABLE reviews (
   rating INT NOT NULL,
   date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+```
